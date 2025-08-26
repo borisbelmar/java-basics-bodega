@@ -33,7 +33,7 @@ public class Bodega {
             }
             for (Movimiento m : this.movimientos) {
                 if ((m != null) && (m.getProducto() == producto)) {
-                    if (m.getTipo().equals(Movimiento.INGRESO)) {
+                    if (m.getTipo().equals(TipoMovimiento.INGRESO)) {
                         acumulado += m.getCantidad();
                     } else {
                         acumulado -= m.getCantidad();
@@ -47,21 +47,25 @@ public class Bodega {
         }
     }
 
-    private void registrarMovimiento (int index, int cantidad, String tipo) {
+    private void registrarMovimiento (String fecha, int index, int cantidad, TipoMovimiento tipo) {
         try {
+            boolean esFechaValida = ValidadorFecha.isValid(fecha);
+            if (!esFechaValida) {
+                throw new ValidationException("La fecha del movimiento no es válida");
+            }
             Producto producto = this.productos[index];
             if (producto == null) {
                 throw new ValidationException("El producto que intentas ingresar no existe");
             }
             int stockProducto = this.getStockProducto(index);
-            if (tipo.equals(Movimiento.DESPACHO) && stockProducto < cantidad) {
+            if (tipo.equals(TipoMovimiento.DESPACHO) && stockProducto < cantidad) {
                 throw new ValidationException("No hay stock suficiente del producto " + producto.getNombre());
             }
             int maxMovimientos = this.movimientos.length;
             if (this.movimientos[maxMovimientos - 1] != null) {
                 throw new ValidationException("Los movimientos están llenos");
             }
-            Movimiento nuevo = new Movimiento(producto, cantidad, tipo);
+            Movimiento nuevo = new Movimiento(fecha, producto, cantidad, tipo);
             this.movimientos[indexMovimiento] = nuevo;
             indexMovimiento++;
             System.out.println("Se registró movimiento para producto: " + producto.getNombre());
@@ -70,12 +74,12 @@ public class Bodega {
         }
     }
 
-    public void ingresarProducto (int index, int cantidad) {
-        registrarMovimiento(index, cantidad, Movimiento.INGRESO);
+    public void ingresarProducto (String fecha, int index, int cantidad) {
+        registrarMovimiento(fecha, index, cantidad, TipoMovimiento.INGRESO);
     }
 
-    public void despacharProducto(int index, int cantidad) {
-        registrarMovimiento(index, cantidad, Movimiento.DESPACHO);
+    public void despacharProducto(String fecha,int index, int cantidad) {
+        registrarMovimiento(fecha, index, cantidad, TipoMovimiento.DESPACHO);
     }
 
     public void printProductos () {

@@ -11,10 +11,10 @@ public class Main {
 
         nuevaTienda.printProductos();
 
-        nuevaTienda.despacharProducto(0, 2);
-        nuevaTienda.ingresarProducto(0, 10);
-        nuevaTienda.ingresarProducto(0, 20);
-        nuevaTienda.despacharProducto(1, 5);
+        nuevaTienda.despacharProducto("XX-08-2025", 0, 2);
+        nuevaTienda.ingresarProducto("24-08-2025", 0, 10);
+        nuevaTienda.ingresarProducto("23-08-2025", 0, 20);
+        nuevaTienda.despacharProducto("22-08-2025", 1, 5);
 
         nuevaTienda.printProductos();
     }

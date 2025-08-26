@@ -1,13 +1,13 @@
 package org.example.bodega;
 
 public class Movimiento {
-    final public static String INGRESO = "Ingreso";
-    final public static String DESPACHO = "Despacho";
+    private String fecha;
     private Producto producto;
     private int cantidad;
-    private String tipo;
+    private TipoMovimiento tipo;
 
-    public Movimiento(Producto producto, int cantidad, String tipo) {
+    public Movimiento(String fecha, Producto producto, int cantidad, TipoMovimiento tipo) {
+        this.fecha = fecha;
         this.producto = producto;
         this.cantidad = cantidad;
         this.tipo = tipo;
@@ -21,7 +21,7 @@ public class Movimiento {
         return cantidad;
     }
 
-    public String getTipo() {
+    public TipoMovimiento getTipo() {
         return tipo;
     }
 
